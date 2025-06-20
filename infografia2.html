@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Tirea y el Reto de la Normativa DORA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab.active {
+            border-bottom-color: #0B3C5D;
+            color: #0B3C5D;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#F0F3F4] text-[#1D2731]">
+
+    <!-- 
+    Infographic Plan Summary:
+    Narrative & Structure: The infographic tells the story of Tirea's unique position regarding DORA. 
+    1. Introduction: Hooks the user by presenting Tirea's scale and the regulatory challenge.
+    2. The Problem: Visually contrasts the standard DORA model with Tirea's collaborative reality.
+    3. The Proposed Solution: Uses a bar chart to compare the inefficiency of the standard model vs. the proposed centralized one.
+    4. Solution in Practice: Employs donut charts to detail how centralization streamlines key DORA requirements.
+    5. Legal Foundation: Highlights the key legal article (31.8) that supports Tirea's case.
+    6. Roadmap: Outlines the strategic path forward for engaging with the regulator (DGSFP).
+
+    Visualization Choices:
+    - Big Numbers (HTML/CSS): To inform and create impact (e.g., 165+ entities). Goal: Inform.
+    - Process Flow (HTML/CSS): To compare relationship structures. Goal: Compare. Justification: Visualizes the core conflict of models simply and without prohibited libraries.
+    - Bar Chart (Chart.js/Canvas): To compare regulatory effort. Goal: Compare. Justification: Provides a stark, quantitative-like comparison of the two approaches.
+    - Donut Charts (Chart.js/Canvas): To show composition/fragmentation. Goal: Compare/Inform. Justification: Excellent for representing the "many vs. one" concept for audits and testing.
+    - Styled Callout (HTML/CSS): To emphasize the legal text. Goal: Inform. Justification: Draws the eye to the most critical piece of evidence.
+    - Timeline (HTML/CSS): To show the action plan. Goal: Organize. Justification: Clearly lays out the next steps.
+
+    Color Palette Chosen: "Brilliant Blues"
+    - #0B3C5D (Dark Blue)
+    - #328CC1 (Medium Blue)
+    - #D9B310 (Gold Accent)
+    - #1D2731 (Text)
+    - #F0F3F4 (Background)
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. All charts are rendered on Canvas by Chart.js, and all diagrams are built with structured HTML and Tailwind CSS.
+    -->
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-black text-[#0B3C5D] mb-2">TIREA y el Reto DORA</h1>
+            <p class="text-lg md:text-xl text-[#1D2731] max-w-3xl mx-auto">Una presentación interactiva sobre la estrategia de cumplimiento normativo para el sector asegurador.</p>
+        </header>
+
+        <div class="bg-white rounded-lg shadow-md">
+            <!-- Tabs Navigation -->
+            <div id="tabs-nav" class="flex border-b border-gray-200 overflow-x-auto">
+                <button data-tab="intro" class="tab p-4 text-sm md:text-base text-gray-600 border-b-4 border-transparent hover:bg-gray-50 focus:outline-none">Introducción</button>
+                <button data-tab="comparison" class="tab p-4 text-sm md:text-base text-gray-600 border-b-4 border-transparent hover:bg-gray-50 focus:outline-none">El Problema</button>
+                <button data-tab="solution" class="tab p-4 text-sm md:text-base text-gray-600 border-b-4 border-transparent hover:bg-gray-50 focus:outline-none">La Solución</button>
+                <button data-tab="practice" class="tab p-4 text-sm md:text-base text-gray-600 border-b-4 border-transparent hover:bg-gray-50 focus:outline-none">En la Práctica</button>
+                <button data-tab="legal" class="tab p-4 text-sm md:text-base text-gray-600 border-b-4 border-transparent hover:bg-gray-50 focus:outline-none">Base Jurídica</button>
+                <button data-tab="roadmap" class="tab p-4 text-sm md:text-base text-gray-600 border-b-4 border-transparent hover:bg-gray-50 focus:outline-none">Hoja de Ruta</button>
+            </div>
+
+            <!-- Tabs Content -->
+            <main class="p-6 md:p-8">
+                <section id="intro-content" class="tab-content">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                        <div class="md:col-span-2">
+                            <h2 class="text-3xl font-bold text-[#0B3C5D] mb-4">Una Utilidad Sectorial, No un Proveedor Común</h2>
+                            <p class="text-base leading-relaxed">
+                                Tirea no es un proveedor de TIC convencional. Es una infraestructura crítica, propiedad de las propias entidades a las que sirve, creada para generar eficiencia colectiva. La Directiva DORA, diseñada para relaciones comerciales estándar, presenta una ambigüedad fundamental al aplicarse a un modelo colaborativo como el de Tirea.
+                            </p>
+                        </div>
+                        <div class="text-center bg-[#328CC1] text-white rounded-lg p-6">
+                            <span class="text-7xl font-black block">165+</span>
+                            <span class="text-xl font-bold">Entidades Accionistas</span>
+                            <p class="text-sm mt-2">Una prueba de su rol sistémico y de la confianza del sector.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="comparison-content" class="tab-content">
+                    <h2 class="text-3xl font-bold text-[#0B3C5D] mb-6 text-center">El Molde que no Encaja: Modelo Estándar vs. Realidad de Tirea</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                            <h3 class="text-xl font-bold mb-4 text-center">Modelo DORA Estándar (Proveedor Externo)</h3>
+                            <div class="space-y-3 text-center">
+                                <div class="bg-gray-100 p-3 rounded-lg">Aseguradora A</div>
+                                <div class="flex justify-center items-center text-[#D9B310]">
+                                    <span class="font-bold text-2xl">&harr;</span>
+                                </div>
+                                <div class="bg-[#0B3C5D] text-white p-3 rounded-lg">Proveedor TIC</div>
+                                <p class="text-sm italic mt-4">Relación basada en un contrato comercial, con desconfianza implícita y necesidad de auditorías, controles y estrategias de salida individuales.</p>
+                            </div>
+                        </div>
+                        <div class="border-2 border-solid border-[#328CC1] rounded-lg p-6 bg-blue-50">
+                            <h3 class="text-xl font-bold mb-4 text-center">Modelo Colaborativo (Realidad de Tirea)</h3>
+                            <div class="relative h-48 flex items-center justify-center">
+                                <div class="absolute bg-[#0B3C5D] text-white p-4 rounded-full z-10">TIREA</div>
+                                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 bg-gray-100 p-2 rounded-lg text-sm">Aseg. A</div>
+                                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 bg-gray-100 p-2 rounded-lg text-sm">Aseg. C</div>
+                                <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 bg-gray-100 p-2 rounded-lg text-sm">Aseg. B</div>
+                                <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 bg-gray-100 p-2 rounded-lg text-sm">Aseg. D</div>
+                            </div>
+                            <p class="text-sm italic mt-4 text-center">Relación basada en la propiedad y gobernanza compartida. Los intereses están alineados por diseño, eliminando la necesidad de controles individuales redundantes.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="solution-content" class="tab-content">
+                    <h2 class="text-3xl font-bold text-[#0B3C5D] mb-2 text-center">La Solución: Eficiencia Regulatoria Centralizada</h2>
+                    <p class="text-center text-base mb-6 max-w-2xl mx-auto">Proponemos un modelo donde Tirea centraliza las obligaciones clave de DORA, generando una inmensa eficiencia para el sector y una supervisión más efectiva para el regulador.</p>
+                    <div class="chart-container">
+                        <canvas id="effortChart"></canvas>
+                    </div>
+                     <p class="text-sm italic text-center mt-4">Este gráfico compara el esfuerzo regulatorio y coste total para el sector. El modelo centralizado reduce drásticamente la duplicación de tareas como auditorías y pruebas, cumpliendo los objetivos de DORA de forma más inteligente.</p>
+                </section>
+
+                <section id="practice-content" class="tab-content">
+                     <h2 class="text-3xl font-bold text-[#0B3C5D] mb-6 text-center">El Modelo Centralizado en Acción</h2>
+                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-gray-50 rounded-lg p-6 text-center">
+                            <h3 class="text-xl font-bold text-[#0B3C5D] mb-4">Auditorías y Supervisión</h3>
+                            <div class="chart-container h-64">
+                                <canvas id="auditChart"></canvas>
+                            </div>
+                            <p class="text-sm italic mt-4">En lugar de 165+ auditorías individuales, se realiza una única auditoría anual exhaustiva, compartida con todos y con la DGSFP.</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-6 text-center">
+                            <h3 class="text-xl font-bold text-[#0B3C5D] mb-4">Pruebas de Resiliencia (TLPT)</h3>
+                            <div class="chart-container h-64">
+                                 <canvas id="penTestChart"></canvas>
+                            </div>
+                            <p class="text-sm italic mt-4">Un único y completo Test de Penetración gestionado por Tirea en nombre de todo el sector, garantizando una visión completa del riesgo sistémico.</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-6 text-center md:col-span-2 lg:col-span-1">
+                            <h3 class="text-xl font-bold text-[#0B3C5D] mb-4">Notificación de Incidentes</h3>
+                            <div class="chart-container h-64">
+                                 <canvas id="incidentChart"></canvas>
+                            </div>
+                            <p class="text-sm italic mt-4">Tirea actúa como centro de coordinación, emitiendo una notificación consolidada a la DGSFP y evitando cientos de reportes idénticos.</p>
+                        </div>
+                     </div>
+                </section>
+
+                <section id="legal-content" class="tab-content">
+                     <div class="text-center bg-[#0B3C5D] text-white rounded-lg p-6 md:p-8">
+                        <h2 class="text-3xl font-bold mb-4">El Pilar Jurídico: Exclusión de Supervisión Directa</h2>
+                        <p class="max-w-3xl mx-auto mb-6">La estrategia se fundamenta en una lectura clara del propio reglamento. El Artículo 31(8) de DORA excluye explícitamente de la designación como Proveedor Crítico (CTPP) a entidades como Tirea.</p>
+                        <div class="bg-white text-[#1D2731] rounded-lg p-6 max-w-2xl mx-auto text-left">
+                            <p class="font-bold text-lg mb-2">Reglamento (UE) 2022/2554, Artículo 31, Apartado 8:</p>
+                            <blockquote class="border-l-4 border-[#D9B310] pl-4 italic">
+                                "El presente capítulo [Supervisión de Proveedores Críticos] no se aplicará a los siguientes proveedores: <br> i) las <strong class="text-[#0B3C5D]">entidades financieras que presten servicios de TIC a otras entidades financieras</strong>..."
+                            </blockquote>
+                            <p class="mt-4 text-sm">Tirea, como entidad propiedad de aseguradoras que presta servicios TIC a estas, encaja directamente en esta exclusión, manteniendo la supervisión a nivel nacional con la DGSFP.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="roadmap-content" class="tab-content">
+                    <h2 class="text-3xl font-bold text-[#0B3C5D] mb-6 text-center">Hoja de Ruta: Diálogo Estratégico con la DGSFP</h2>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-0">
+                        <div class="flex-1 text-center p-4">
+                            <div class="bg-[#328CC1] text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 text-2xl font-bold">1</div>
+                            <h3 class="font-bold">Posicionamiento y Argumento</h3>
+                            <p class="text-sm">Presentar el marco conceptual de Tirea como "Utilidad Sectorial" y el sólido argumento jurídico del Art. 31(8).</p>
+                        </div>
+                         <div class="flex-shrink-0 w-full md:w-24 border-t-2 md:border-t-0 md:border-l-2 border-dashed border-[#D9B310] h-12 md:h-auto"></div>
+                        <div class="flex-1 text-center p-4">
+                             <div class="bg-[#328CC1] text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 text-2xl font-bold">2</div>
+                            <h3 class="font-bold">Propuesta de Modelo</h3>
+                            <p class="text-sm">Detallar el modelo de cumplimiento centralizado (auditorías, TLPT, incidentes) y sus beneficios para el sector y el regulador.</p>
+                        </div>
+                        <div class="flex-shrink-0 w-full md:w-24 border-t-2 md:border-t-0 md:border-l-2 border-dashed border-[#D9B310] h-12 md:h-auto"></div>
+                        <div class="flex-1 text-center p-4">
+                             <div class="bg-[#328CC1] text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 text-2xl font-bold">3</div>
+                            <h3 class="font-bold">Formalización y Certidumbre</h3>
+                            <p class="text-sm">Buscar una comunicación formal o un protocolo con la DGSFP que dé certidumbre jurídica al rol especial de Tirea.</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="text-center mt-8 pt-8 border-t border-gray-200">
+            <p class="text-sm text-gray-600">Esta infografía es una interpretación visual del análisis estratégico sobre la aplicación de DORA a Tirea. Generado el 20 de junio de 2025.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            let charts = {};
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const defaultPlugins = {
+                legend: { position: 'bottom', labels: { color: '#1D2731' } },
+                tooltip: { callbacks: { title: tooltipTitleCallback } }
+            };
+
+            const chartConfigs = {
+                effortChart: {
+                    type: 'bar',
+                    data: {
+                        labels: ['Auditorías y Controles', 'Pruebas de Resiliencia', 'Gestión de Incidentes', 'Gobernanza y Reporte'],
+                        datasets: [{
+                            label: 'Esfuerzo Sectorial (Modelo Estándar)',
+                            data: [100, 90, 80, 95],
+                            backgroundColor: '#0B3C5D',
+                        }, {
+                            label: 'Esfuerzo Sectorial (Modelo Centralizado)',
+                            data: [10, 8, 15, 12],
+                            backgroundColor: '#328CC1',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: defaultPlugins,
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: 'Unidades de Esfuerzo / Coste (Estimado)', color: '#1D2731' }, ticks: { color: '#1D2731' } },
+                            x: { ticks: { color: '#1D2731' } }
+                        }
+                    }
+                },
+                auditChart: { type: 'doughnut', data: { labels: ['Auditoría Única Centralizada'], datasets: [{ data: [100], backgroundColor: ['#0B3C5D'], hoverOffset: 4 }] } },
+                penTestChart: { type: 'doughnut', data: { labels: ['TLPT Único Centralizado'], datasets: [{ data: [100], backgroundColor: ['#328CC1'], hoverOffset: 4 }] } },
+                incidentChart: { type: 'doughnut', data: { labels: ['Notificación Única Consolidada'], datasets: [{ data: [100], backgroundColor: ['#D9B310'], hoverOffset: 4 }] } }
+            };
+
+            function createChart(canvasId) {
+                if (charts[canvasId] || !document.getElementById(canvasId)) return;
+
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                const config = chartConfigs[canvasId];
+                
+                let finalOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } } };
+                if(config.type === 'bar') {
+                    finalOptions = config.options;
+                }
+
+                charts[canvasId] = new Chart(ctx, {
+                    type: config.type,
+                    data: config.data,
+                    options: finalOptions
+                });
+            }
+
+            function showTab(tabId) {
+                tabs.forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.tab === tabId);
+                });
+                tabContents.forEach(content => {
+                    content.classList.toggle('active', content.id === `${tabId}-content`);
+                });
+
+                const activeContent = document.getElementById(`${tabId}-content`);
+                const canvases = activeContent.querySelectorAll('canvas');
+                canvases.forEach(canvas => {
+                    createChart(canvas.id);
+                });
+            }
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => showTab(tab.dataset.tab));
+            });
+            
+            showTab('intro');
+        });
+    </script>
+</body>
+</html>
