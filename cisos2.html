@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciativas Sectoriales de Seguridad | Tirea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Professional Blue -->
+    <!-- Application Structure Plan: A single-page application with a sticky top navigation for easy access to the three core thematic sections: Identity Hub, Ágora, and DORA. This structure abandons a rigid slide-by-slide format in favor of a logical, user-driven flow. The introduction sets the stage with an interactive timeline. Each section is a self-contained module with clear objectives and calls to action, designed to guide CISOs from understanding the problem to making a decision. This thematic approach is more intuitive for a web experience than a linear presentation. A new interactive diagram for identity federation is added for technical clarity. -->
+    <!-- Visualization & Content Choices: 
+        - Context (Slide 2) -> Goal: Change/Inform -> Viz: Interactive HTML/CSS Timeline -> Interaction: Hover on milestones -> Justification: More engaging than a static list, shows momentum.
+        - Identity Federation Flow -> Goal: Organize/Explain -> Viz: Interactive Step-by-Step HTML/CSS Diagram -> Interaction: Hover on steps to highlight -> Justification: Visually explains a complex technical process (SSO) clearly without requiring complex libraries.
+        - MVP Phases (Slide 5) -> Goal: Organize -> Viz: HTML/CSS Cards -> Justification: Separates distinct phases for better comprehension.
+        - DORA Controls (Slide 10) -> Goal: Organize/Inform -> Viz: Interactive Accordion List -> Interaction: Click to expand/collapse -> Justification: Prevents text overload, allows focused reading.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .timeline-item:hover .timeline-icon {
+            transform: scale(1.1);
+            background-color: #0369a1; /* sky-700 */
+        }
+        .timeline-item:hover .timeline-content {
+            border-color: #0ea5e9; /* sky-500 */
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .accordion-item.open .accordion-content {
+            max-height: 500px;
+        }
+        .accordion-item.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .sticky-nav {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .sso-step {
+            transition: all 0.3s ease;
+        }
+        .sso-flow:hover .sso-step:not(:hover) {
+            opacity: 0.6;
+            transform: scale(0.98);
+        }
+        .sso-flow:hover .sso-step:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #0ea5e9;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800">
+
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <h1 class="text-3xl font-bold text-slate-900">Iniciativas Sectoriales de Seguridad</h1>
+            <p class="mt-1 text-lg text-slate-600">Próximos Pasos y Nuevas Propuestas</p>
+        </div>
+    </header>
+
+    <nav class="sticky-nav bg-white/80 backdrop-blur-lg shadow-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center items-center space-x-4 sm:space-x-8 h-16">
+                <a href="#identidad" class="text-slate-600 hover:text-sky-600 font-medium transition-colors duration-200 px-3 py-2 rounded-md">Hub de Identidades</a>
+                <a href="#agora" class="text-slate-600 hover:text-sky-600 font-medium transition-colors duration-200 px-3 py-2 rounded-md">Concentrador Ágora</a>
+                <a href="#dora" class="text-slate-600 hover:text-sky-600 font-medium transition-colors duration-200 px-3 py-2 rounded-md">Posicionamiento DORA</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- BLOQUE 0: CONTEXTO -->
+        <section id="contexto" class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">¿Por Qué Estamos Hoy Aquí?</h2>
+                <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Esta reunión es la culminación de un trabajo continuo. Hemos avanzado significativamente y alcanzado un grado de madurez que nos obliga a pasar a la acción. Esta es la cronología de los hitos que nos han traído hasta este punto decisivo.</p>
+            </div>
+            
+            <div id="timeline-container" class="relative">
+                <div class="absolute left-1/2 h-full w-0.5 bg-slate-300 transform -translate-x-1/2"></div>
+            </div>
+        </section>
+
+        <!-- BLOQUE 1: HUB DE IDENTIDADES -->
+        <section id="identidad" class="mb-16 scroll-mt-24">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200">
+                <div class="text-center mb-12">
+                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        El Nuevo Dolor a Resolver
+                    </span>
+                    <h2 class="text-3xl font-bold text-slate-900 mt-4">Hub de Gestión de Identidades para Corredores</h2>
+                    <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">La gestión de identidades de corredores ha pasado de ser un riesgo teórico a una amenaza materializada. Los incidentes de ciberseguridad más recientes en el sector han tenido un origen común: identidades de corredores comprometidas. Ante esta realidad, y con la presión añadida de la alta rotación y la normativa DORA, abordar este frente no es una mejora, es una obligación ineludible.</p>
+                </div>
+
+                <!-- NEW INTERACTIVE SSO DIAGRAM -->
+                <div class="mt-12 mb-16">
+                    <h3 class="text-xl font-semibold text-slate-900 text-center mb-6">¿Cómo Funciona la Federación de Identidades (SSO)?</h3>
+                    <div class="sso-flow max-w-4xl mx-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch text-center">
+                            <!-- Corredor -->
+                            <div class="sso-step bg-slate-50 p-4 rounded-xl border-2 border-transparent">
+                                <div class="text-4xl">👤</div>
+                                <h4 class="font-bold mt-2">Corredor</h4>
+                                <p class="text-sm text-slate-600">Inicia sesión para acceder a una aplicación de una aseguradora.</p>
+                            </div>
+                            
+                            <!-- Tirea IDP -->
+                            <div class="sso-step bg-sky-50 p-4 rounded-xl border-2 border-transparent">
+                                <div class="text-4xl">🛡️</div>
+                                <h4 class="font-bold text-sky-800 mt-2">Hub Tirea (IdP)</h4>
+                                <p class="text-sm text-slate-600">Recibe la petición. Autentica al corredor (usuario, contraseña, MFA). Si es correcta, genera un token de sesión seguro.</p>
+                            </div>
+
+                            <!-- Aseguradoras -->
+                             <div class="sso-step bg-slate-50 p-4 rounded-xl border-2 border-transparent">
+                                <div class="text-4xl">🏢</div>
+                                <h4 class="font-bold mt-2">Aseguradoras (SP)</h4>
+                                <p class="text-sm text-slate-600">Reciben el token, confían en la autenticación de Tirea y dan acceso al corredor.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Arrows -->
+                        <div class="relative h-12 flex items-center justify-center px-16 my-[-1rem]">
+                            <div class="absolute w-full h-0.5 bg-slate-300 top-1/2"></div>
+                            <div class="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 px-2 text-slate-500 font-bold text-2xl">→</div>
+                             <div class="absolute right-1/3 top-1/2 transform translate-x-1/2 -translate-y-1/2 bg-slate-50 px-2 text-slate-500 font-bold text-2xl">→</div>
+                        </div>
+
+                        <div class="mt-8 text-center">
+                           <div class="inline-block mx-auto bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                               <p class="font-semibold text-green-800">Resultado: Single Sign-On</p>
+                               <p class="text-green-700">El corredor se autentica una sola vez y accede de forma transparente a todas las aplicaciones de las entidades adheridas.</p>
+                           </div>
+                        </div>
+                        
+                        <div class="mt-6 text-center">
+                             <div class="sso-step inline-block mx-auto bg-amber-50 p-4 rounded-xl border-2 border-transparent">
+                                <h4 class="font-bold text-amber-800">Paso Opcional: Autorización Adicional</h4>
+                                <p class="text-sm text-slate-600">Una vez autenticado el corredor por Tirea, la aseguradora puede, si lo necesita, realizar su propio proceso interno para asignar permisos específicos o roles granulares dentro de sus aplicaciones.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 border-t border-slate-200 pt-12">
+                    <h3 class="text-xl font-semibold text-slate-900 text-center mb-6">Alcance del Servicio y Modelo</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                             <h4 class="font-bold text-slate-800">🎯 Producto Mínimo Viable (MVP)</h4>
+                             <ul class="mt-4 space-y-3 text-slate-600">
+                                <li class="flex items-start">
+                                    <span class="text-sky-600 mr-3 mt-1">✓</span>
+                                    <span><strong>Autenticación Centralizada:</strong> Gestión del ciclo de vida de la identidad (altas/bajas) como función operativa de Tirea.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-sky-600 mr-3 mt-1">✓</span>
+                                    <span><strong>Implantación de Doble Factor (MFA):</strong> Refuerzo de la seguridad desde el inicio.</span>
+                                </li>
+                                <li class="flex items-start">
+                                     <span class="text-slate-400 mr-3 mt-1">→</span>
+                                     <span><strong>Futuro (Fase 2):</strong> Extensión a un modelo de Autorización por Roles (RBAC) más granular.</span>
+                                </li>
+                             </ul>
+                        </div>
+                         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                             <h4 class="font-bold text-slate-800">🤝 Rol de Tirea y Modelo de Servicio</h4>
+                             <ul class="mt-4 space-y-3 text-slate-600">
+                                 <li class="flex items-start">
+                                    <span class="text-sky-600 mr-3 mt-1">✓</span>
+                                    <span><strong>Función Operativa:</strong> Tirea asume la complejidad con un equipo dedicado ("front office").</span>
+                                 </li>
+                                 <li class="flex items-start">
+                                    <span class="text-sky-600 mr-3 mt-1">✓</span>
+                                    <span><strong>Plataforma SaaS:</strong> El servicio se presta sobre una plataforma tecnológica de mercado.</span>
+                                 </li>
+                                 <li class="flex items-start">
+                                    <span class="text-sky-600 mr-3 mt-1">✓</span>
+                                    <span><strong>Modelo de Facturación:</strong> Es un servicio con un coste asociado para garantizar su sostenibilidad. "No somos una ONG".</span>
+                                 </li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOQUE 2: CONCENTRADOR ÁGORA -->
+        <section id="agora" class="mb-16 scroll-mt-24">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200">
+                <div class="text-center mb-12">
+                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+                        La Decisión a Tomar
+                    </span>
+                    <h2 class="text-3xl font-bold text-slate-900 mt-4">Concentrador de Calificación de Proveedores (Ágora)</h2>
+                    <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Esta iniciativa, ya conocida por todos, ha alcanzado su punto de madurez. Con el respaldo institucional de la DGS, es el momento de pasar de la definición a la acción y comenzar el proceso de adhesión.</p>
+                </div>
+                 <div class="bg-slate-50 p-8 rounded-xl border-2 border-dashed border-slate-300">
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Llamada a la Acción: ¡Pasemos a la Acción!</h3>
+                        <p class="text-slate-600 mt-2 max-w-2xl mx-auto">Hemos completado la fase de análisis y definición con el grupo de trabajo. Ahora necesitamos el compromiso formal del sector para materializar los beneficios de eficiencia y cumplimiento normativo.</p>
+                        <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+                            <div class="p-4 bg-white rounded-lg shadow text-left">
+                                <p class="font-semibold">Próximo Paso Inmediato:</p>
+                                <p class="text-slate-600">Firma del boletín de adhesión.</p>
+                            </div>
+                            <div class="p-4 bg-white rounded-lg shadow text-left">
+                                <p class="font-semibold">Objetivo:</p>
+                                <p class="text-slate-600">Iniciar la fase de implantación.</p>
+                            </div>
+                        </div>
+                         <div class="mt-8">
+                             <a href="#" class="inline-block bg-sky-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-sky-700 transition-colors">
+                                Obtener el "Go" para la Adhesión
+                            </a>
+                         </div>
+                         <div class="mt-6 bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg max-w-2xl mx-auto text-left">
+                            <p class="font-semibold text-emerald-800">Mensaje Clave</p>
+                            <p class="text-emerald-700">"Necesitamos vuestro compromiso para arrancar. El momento es ahora."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOQUE 3: POSICIONAMIENTO DORA -->
+        <section id="dora" class="scroll-mt-24">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200">
+                 <div class="text-center mb-12">
+                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800">
+                        Clarificación Necesaria
+                    </span>
+                    <h2 class="text-3xl font-bold text-slate-900 mt-4">Posicionamiento de Tirea ante DORA</h2>
+                    <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Es crucial alinear un entendimiento común sobre la aplicabilidad de DORA a Tirea. Nuestra naturaleza como plataforma sectorial compartida, no como un proveedor TIC tradicional, requiere un enfoque específico para evitar ineficiencias en los procesos de auditoría.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-slate-900 text-center mb-2">Hacia una Nota Técnica Sectorial</h3>
+                     <p class="text-slate-600 text-center mb-6">La DGS ha propuesto crear una nota técnica que sirva a todo el sector. A continuación, se presentan los controles clave que, por nuestra naturaleza de "intragrupo", no son aplicables de la misma forma que a un proveedor convencional. El objetivo es consensuar esta lista.</p>
+                    
+                    <div id="accordion-container" class="max-w-3xl mx-auto space-y-3">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; Tirea. Presentación para CISOs del Sector Asegurador.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const timelineData = [
+                { icon: '📜', title: 'Entrada en vigor de DORA', description: 'El catalizador que impulsa la necesidad de reforzar la seguridad y la resiliencia en el sector.', side: 'left' },
+                { icon: '👥', title: 'Encuentros Previos de CISOs', description: 'Reuniones anteriores donde se originaron y discutieron las ideas iniciales para estas iniciativas.', side: 'right' },
+                { icon: '🤝', title: 'Creación del Grupo de Trabajo', description: 'Se forma un grupo con entidades clave para definir el alcance del Concentrador Ágora.', side: 'left' },
+                { icon: '📈', title: 'Sesiones de Trabajo Realizadas', description: 'Se llevan a cabo múltiples sesiones de trabajo, logrando acuerdos importantes y demostrando el avance.', side: 'right' },
+                { icon: '🔐', title: 'Petición de la Comisión CIMA', description: 'Solicitud explícita para implantar el doble factor, validando la urgencia del Hub de Identidades.', side: 'left' },
+                { icon: '🎯', title: '¡Reunión de Decisión!', description: 'Hoy. El punto de inflexión para pasar del análisis a la acción y obtener el "Go" definitivo.', side: 'right' }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineData.forEach((item) => {
+                const itemHtml = `
+                    <div class="timeline-item flex items-center w-full mb-8">
+                        <div class="flex md:flex-row flex-col items-center w-full ${item.side === 'left' ? 'md:flex-row-reverse flex-col-reverse' : ''}">
+                            <div class="order-1 md:w-5/12"></div>
+                            <div class="z-20 flex items-center order-1 bg-sky-600 shadow-xl w-12 h-12 rounded-full timeline-icon transition-transform duration-300">
+                                <h1 class="mx-auto font-semibold text-lg text-white">${item.icon}</h1>
+                            </div>
+                            <div class="order-1 bg-white rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 border-t-4 border-slate-200 timeline-content transition-colors duration-300">
+                                <h3 class="font-bold text-slate-800 text-lg">${item.title}</h3>
+                                <p class="text-sm leading-snug tracking-wide text-slate-600 text-opacity-100">${item.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                timelineContainer.innerHTML += itemHtml;
+            });
+            
+            const accordionData = [
+                { title: "Control de Segregación de Entornos", content: "No es aplicable en los mismos términos que a un proveedor dedicado. Nuestra plataforma es multi-entidad por diseño, con una segregación lógica robusta y probada, pero no una infraestructura física por cliente, lo cual es la base de nuestra eficiencia." },
+                { title: "Planes de Salida Específicos por Entidad", content: "Un plan de salida individualizado para cada una de las entidades accionistas es inviable y contrario al modelo de plataforma compartida. Se establecen planes de continuidad de servicio sectoriales, no planes de migración a un proveedor alternativo para un solo cliente." },
+                { title: "Requisitos de Auditoría Extensiva 'in situ'", content: "Si bien somos transparentes y auditables, someter a la plataforma a auditorías 'in situ' completas y recurrentes por parte de cada entidad paralizaría la operativa. Proponemos un modelo de certificaciones y auditorías de terceros (como SOC 2) cuyos resultados se comparten con todas las entidades." },
+                { title: "Personalización Extrema de Controles", content: "La estandarización es clave para la seguridad y eficiencia del servicio. No podemos aplicar políticas de seguridad o configuraciones de control específicas de una sola entidad si contradicen el estándar acordado para el resto del sector." }
+            ];
+
+            const accordionContainer = document.getElementById('accordion-container');
+            accordionData.forEach(item => {
+                const accordionItem = document.createElement('div');
+                accordionItem.classList.add('accordion-item', 'border', 'border-slate-200', 'rounded-lg');
+                accordionItem.innerHTML = `
+                    <button class="accordion-header w-full flex justify-between items-center p-4 text-left">
+                        <span class="font-semibold text-slate-700">${item.title}</span>
+                        <svg class="accordion-arrow w-5 h-5 text-slate-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content bg-slate-50">
+                        <p class="p-4 text-slate-600">${item.content}</p>
+                    </div>
+                `;
+                accordionContainer.appendChild(accordionItem);
+            });
+
+            accordionContainer.addEventListener('click', function(event) {
+                const header = event.target.closest('.accordion-header');
+                if (header) {
+                    const item = header.parentElement;
+                    item.classList.toggle('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Anatomía de una Intrusión Silenciosa (con IA)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A2463;
+            color: #D8D8D8;
+        }
+        .card {
+            background-color: #1E528C;
+            border: 1px solid #3E92CC;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-number {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #3E92CC;
+        }
+        .flowchart-box {
+            background-color: #0A2463;
+            border: 2px solid #3E92CC;
+            color: #D8D8D8;
+        }
+        .flowchart-arrow {
+            color: #3E92CC;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            background-color: #3E92CC;
+            border-radius: 50%;
+            border: 3px solid #0A2463;
+        }
+        .timeline {
+            border-left: 4px solid #3E92CC;
+        }
+        .gemini-button {
+            background-color: #3E92CC;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .gemini-button:hover {
+            background-color: #2a7ab0;
+        }
+        .gemini-output {
+            background-color: #081c4a;
+            border: 1px solid #1E528C;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: left;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .loader {
+            border: 5px solid #1E528C;
+            border-top: 5px solid #3E92CC;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="loader" class="loader"></div>
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">Anatomía de una Intrusión Silenciosa</h1>
+            <p class="text-xl text-[#95B2CC]">Una Guía Visual e Interactiva para la Gestión de Amenazas Persistentes Avanzadas (APT)</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <section id="intro" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-2 card rounded-lg shadow-2xl p-6">
+                    <h2 class="text-3xl font-bold text-white mb-4">Más Allá de las Alarmas Ruidosas</h2>
+                    <p class="text-lg">A diferencia del ransomware o los ataques DDoS, las intrusiones silenciosas de las APT pueden permanecer sin ser detectadas durante meses o años. El objetivo no es la interrupción, sino el espionaje y la exfiltración de datos a largo plazo. La detección se basa en anomalías sutiles, no en alarmas evidentes.</p>
+                </div>
+                <div class="card rounded-lg shadow-2xl p-6 text-center">
+                     <h3 class="text-2xl font-bold text-white mb-3">Motivación del Atacante</h3>
+                    <div class="chart-container h-48 max-h-48">
+                        <canvas id="motivationsChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-[#95B2CC]">Los actores de APT están motivados principalmente por ganancias financieras o espionaje, lo que impulsa su necesidad de permanecer ocultos.</p>
+                </div>
+            </section>
+            
+            <section id="detection" class="card rounded-lg shadow-2xl p-6">
+                <h2 class="text-3xl font-bold text-white text-center mb-8">El Primer Susurro: Indicadores de Compromiso Sigilosos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Evidencia en la Red</h3>
+                        <p class="mb-6">El tráfico de red a menudo contiene las primeras pistas. Los atacantes son expertos en disfrazar sus comunicaciones (C&C) para que parezcan tráfico legítimo.</p>
+                        <div class="chart-container h-64 max-h-64">
+                            <canvas id="c2TechniquesChart"></canvas>
+                        </div>
+                        <p class="mt-4 text-sm text-center text-[#95B2CC]">Las técnicas de evasión son la norma, dificultando la detección basada en firmas.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Evidencia en el Host</h3>
+                        <p class="mb-6">Las acciones en los propios sistemas revelan la presencia del atacante. En lugar de buscar malware conocido, el enfoque es detectar comportamientos anómalos.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-4 text-[#3E92CC]">🛡️</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Monitorización de Integridad (FIM)</h4>
+                                    <p class="text-sm text-[#95B2CC]">Detecta cambios no autorizados en archivos críticos del sistema y configuraciones, una táctica común de los APT para establecer persistencia.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-4 text-[#3E92CC]">👤</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Análisis de Comportamiento (UEBA)</h4>
+                                    <p class="text-sm text-[#95B2CC]">Modela el comportamiento "normal" de usuarios y dispositivos, y alerta sobre desviaciones, como un inicio de sesión a las 3 AM desde un país inusual.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="mobilization" class="card rounded-lg shadow-2xl p-6">
+                <h2 class="text-3xl font-bold text-white text-center mb-8">Movilización: Activando la Respuesta de Doble Vía</h2>
+                <p class="text-center max-w-3xl mx-auto mb-10">Una vez que se declara un incidente, se activan dos equipos en paralelo: el Equipo de Gestión de Crisis (CMT) para la estrategia empresarial y el Equipo de Respuesta a Incidentes (CSIRT) para la investigación técnica.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center">
+                         <h3 class="text-2xl font-semibold text-white mb-4">Flujo de Activación</h3>
+                        <div class="flex flex-col items-center justify-center space-y-2">
+                           <div class="flowchart-box p-4 rounded-lg w-full max-w-xs">Anomalía Detectada</div>
+                           <div class="flowchart-arrow">↓</div>
+                           <div class="flowchart-box p-4 rounded-lg w-full max-w-xs">Triaje y Escalada</div>
+                           <div class="flowchart-arrow">↓</div>
+                           <div class="flex space-x-4 w-full justify-center">
+                               <div class="text-center">
+                                   <div class="flowchart-box p-4 rounded-lg">CMT (Estrategia)</div>
+                               </div>
+                               <div class="text-center">
+                                   <div class="flowchart-box p-4 rounded-lg">CSIRT (Técnica)</div>
+                               </div>
+                           </div>
+                        </div>
+                         <p class="mt-4 text-sm text-[#95B2CC]">La comunicación segura y fuera de banda entre estos equipos es fundamental.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">La Caza Técnica: Orden de Volatilidad</h3>
+                        <p class="mb-6">La primera acción del CSIRT es preservar la evidencia, recogiendo los datos más efímeros primero para evitar su pérdida.</p>
+                        <div class="relative pl-8 timeline">
+                            <div class="timeline-item mb-6 relative">
+                                <h4 class="font-bold text-lg">1. Memoria RAM</h4>
+                                <p class="text-sm text-[#95B2CC]">Capturar la RAM es CRÍTICO. Contiene procesos en ejecución, malware sin ficheros y claves de cifrado que se pierden al reiniciar.</p>
+                            </div>
+                            <div class="timeline-item relative">
+                                <h4 class="font-bold text-lg">2. Discos Duros</h4>
+                                <p class="text-sm text-[#95B2CC]">Crear una imagen forense bit a bit. Todo el análisis se realiza sobre esta copia para preservar la evidencia original.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="counteroffensive" class="card rounded-lg shadow-2xl p-6">
+                <h2 class="text-3xl font-bold text-white text-center mb-8">La Contraofensiva: Contener, Erradicar y Recuperar</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="flex flex-col items-center">
+                        <div class="bg-[#0A2463] rounded-full h-24 w-24 flex items-center justify-center text-4xl border-4 border-[#3E92CC] mb-4">🔪</div>
+                        <h3 class="text-xl font-bold mb-2">1. Contención Estratégica</h3>
+                        <p class="text-sm text-[#95B2CC]">Limitar el daño sin alertar al atacante. Se utilizan técnicas sutiles como la segmentación de red o la redirección del tráfico C&C a un "sinkhole" controlado.</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                        <div class="bg-[#0A2463] rounded-full h-24 w-24 flex items-center justify-center text-4xl border-4 border-[#3E92CC] mb-4">🧹</div>
+                        <h3 class="text-xl font-bold mb-2">2. Erradicación Profunda</h3>
+                        <p class="text-sm text-[#95B2CC]">No es solo borrar malware. Es una caza para eliminar todos los mecanismos de persistencia (backdoors, cuentas fraudulentas) y reconstruir los sistemas desde imágenes "doradas".</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                        <div class="bg-[#0A2463] rounded-full h-24 w-24 flex items-center justify-center text-4xl border-4 border-[#3E92CC] mb-4">🏗️</div>
+                        <h3 class="text-xl font-bold mb-2">3. Recuperación Resiliente</h3>
+                        <p class="text-sm text-[#95B2CC]">Restaurar los sistemas por fases con monitorización intensificada. Es una oportunidad para fortalecer las defensas, no solo para volver al estado anterior.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aftermath" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card rounded-lg shadow-2xl p-8 flex flex-col justify-center items-center text-center">
+                    <h2 class="text-3xl font-bold text-white mb-2">El Reloj del GDPR</h2>
+                    <p class="kpi-number">72h</p>
+                    <p class="text-lg">Es el plazo máximo para notificar una brecha de datos a las autoridades reguladoras una vez que se tiene constancia de ella. El incumplimiento puede acarrear multas masivas.</p>
+                </div>
+                <div class="card rounded-lg shadow-2xl p-6">
+                    <h2 class="text-3xl font-bold text-white mb-6">Controlar la Narrativa: Comunicaciones</h2>
+                    <p class="mb-6">En ausencia de información oficial, el vacío se llena con especulación y miedo. Una comunicación proactiva y planificada es una estrategia central de mitigación de la crisis.</p>
+                    <div class="space-y-4">
+                        <label for="audienceSelect" class="block text-sm font-medium text-white">Seleccione la Audiencia:</label>
+                        <select id="audienceSelect" class="w-full p-2 rounded-md bg-[#0A2463] border border-[#3E92CC] text-white">
+                            <option value="Empleados">Empleados</option>
+                            <option value="Clientes">Clientes</option>
+                            <option value="Junta Directiva">Junta Directiva</option>
+                        </select>
+                        <button id="generateCommButton" class="gemini-button w-full">✨ Generar Borrador de Comunicación</button>
+                        <div id="commOutput" class="gemini-output" style="display: none;"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="lessons" class="card rounded-lg shadow-2xl p-6 text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">Las Secuelas: Convertir la Crisis en Resiliencia</h2>
+                <p class="max-w-3xl mx-auto mb-8">La fase de lecciones aprendidas es la única que ofrece un retorno de la inversión, transformando el coste del incidente en una mejora duradera de la seguridad.</p>
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flowchart-box p-4 rounded-lg">Revisión Post-Mortem (Sin Culpas)</div>
+                    <div class="flowchart-arrow">→</div>
+                    <div class="flowchart-box p-4 rounded-lg">Plan de Acción (Tecnología, Procesos, Personas)</div>
+                     <div class="flowchart-arrow">→</div>
+                    <div class="flowchart-box p-4 rounded-lg">Fortificación y Mejora Continua</div>
+                </div>
+                 <div class="mt-8">
+                    <button id="generateQuestionsButton" class="gemini-button">✨ Generar Preguntas Clave para el Post-Mortem</button>
+                    <div id="questionsOutput" class="gemini-output" style="display: none;"></div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 pt-8 border-t border-[#1E528C]">
+            <p class="text-[#95B2CC]">Infografía generada basada en el manual "La Intrusión Silenciosa". Funciones de IA por Gemini.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loader = document.getElementById('loader');
+
+            const callGemini = async (prompt, outputElement) => {
+                outputElement.style.display = 'block';
+                outputElement.innerText = 'Generando respuesta...';
+                loader.style.display = 'block';
+
+                const apiKey = ""; // Left blank as per instructions
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{
+                        role: "user",
+                        parts: [{ text: prompt }]
+                    }]
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Error de red: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        outputElement.innerText = text;
+                    } else {
+                        outputElement.innerText = 'No se pudo generar una respuesta. Por favor, inténtelo de nuevo.';
+                        console.error('Respuesta inesperada de la API:', result);
+                    }
+                } catch (error) {
+                    console.error('Error al llamar a la API de Gemini:', error);
+                    outputElement.innerText = `Error: ${error.message}. Por favor, revise la consola para más detalles.`;
+                } finally {
+                    loader.style.display = 'none';
+                }
+            };
+            
+            // Event listener for communications draft
+            const generateCommButton = document.getElementById('generateCommButton');
+            const commOutput = document.getElementById('commOutput');
+            const audienceSelect = document.getElementById('audienceSelect');
+
+            generateCommButton.addEventListener('click', () => {
+                const audience = audienceSelect.value;
+                const prompt = `Eres un experto en comunicación de crisis de ciberseguridad. Basado en un incidente de 'intrusión silenciosa' por una Amenaza Persistente Avanzada (APT) donde se sospecha exfiltración de datos pero aún no está completamente confirmada, redacta un borrador de comunicación claro y conciso para la siguiente audiencia: "${audience}". El mensaje debe explicar la situación a un alto nivel (sin detalles técnicos sensibles), enfatizar que el equipo de seguridad está gestionando activamente el incidente y proporcionar directrices claras sobre qué deben hacer y qué no. El tono debe ser profesional, transparente y generar confianza.`;
+                callGemini(prompt, commOutput);
+            });
+
+            // Event listener for post-mortem questions
+            const generateQuestionsButton = document.getElementById('generateQuestionsButton');
+            const questionsOutput = document.getElementById('questionsOutput');
+            
+            generateQuestionsButton.addEventListener('click', () => {
+                const prompt = `Eres un experto gestor de respuesta a incidentes. Genera una lista de preguntas clave para guiar una reunión de análisis post-mortem tras un incidente de 'intrusión silenciosa' por una Amenaza Persistente Avanzada (APT). Las preguntas deben ser exhaustivas y cubrir las siguientes áreas: 1. Detección y Escalada (¿Cómo lo detectamos? ¿Podríamos haberlo detectado antes?), 2. Análisis e Investigación (¿Cuáles fueron nuestras brechas de visibilidad? ¿Teníamos las herramientas adecuadas?), 3. Contención y Erradicación (¿Fueron efectivas nuestras acciones? ¿Cómo podemos mejorar la velocidad?), 4. Comunicación (¿Funcionó nuestro plan de comunicaciones? ¿Fueron claros los mensajes?), y 5. Lecciones Estratégicas (¿Qué cambios en la arquitectura, políticas o formación son necesarios para prevenir incidentes similares?). Formatea la salida claramente con títulos para cada sección.`;
+                callGemini(prompt, questionsOutput);
+            });
+
+
+            // Chart.js rendering
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                  return label.join(' ');
+                }
+                return label;
+            };
+            
+            const wrapLabel = (label, maxWidth = 16) => {
+                if (label.length <= maxWidth) { return label; }
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                if (currentLine) { lines.push(currentLine.trim()); }
+                return lines;
+            };
+            
+            const brilliantBlues = { deep: '#0A2463', bright: '#3E92CC', medium: '#1E528C', soft: '#95B2CC', light: '#D8D8D8' };
+
+            new Chart(document.getElementById('motivationsChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Financiera', 'Espionaje', 'Otros'],
+                    datasets: [{
+                        label: 'Motivación del Atacante',
+                        data: [55, 8, 37],
+                        backgroundColor: [brilliantBlues.bright, brilliantBlues.soft, brilliantBlues.light],
+                        borderColor: brilliantBlues.medium,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } }
+                }
+            });
+
+            new Chart(document.getElementById('c2TechniquesChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Uso de HTTPS para C&C', 'Uso de Canales de Respaldo', 'Domain Fronting', 'Túnel DNS'].map(l => wrapLabel(l)),
+                    datasets: [{
+                        label: '% de Campañas APT',
+                        data: [81, 60.6, 50, 45],
+                        backgroundColor: brilliantBlues.bright,
+                        borderColor: brilliantBlues.soft,
+                        borderWidth: 1,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, max: 100, ticks: { color: brilliantBlues.light }, grid: { color: 'rgba(149, 178, 204, 0.2)' } },
+                        y: { ticks: { color: brilliantBlues.light, font: { size: 10 } }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

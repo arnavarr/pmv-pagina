@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Anatomía de una Intrusión Silenciosa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0A2463;
+            color: #D8D8D8;
+        }
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 4rem;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            z-index: 10;
+        }
+        .card {
+            background-color: #1E528C;
+            border: 1px solid #3E92CC;
+            width: 100%;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 1rem auto;
+            height: 250px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .kpi-number {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #3E92CC;
+        }
+        .flowchart-box {
+            background-color: #0A2463;
+            border: 2px solid #3E92CC;
+            color: #D8D8D8;
+        }
+        .flowchart-arrow {
+            color: #3E92CC;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            background-color: #3E92CC;
+            border-radius: 50%;
+            border: 3px solid #0A2463;
+        }
+        .timeline {
+            border-left: 4px solid #3E92CC;
+        }
+        .nav-button {
+            position: fixed;
+            bottom: 2rem;
+            z-index: 100;
+            background-color: #3E92CC;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.25);
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: #1E528C;
+        }
+        #prevBtn {
+            left: 2rem;
+        }
+        #nextBtn {
+            right: 2rem;
+        }
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container">
+        
+        <section id="intro" class="slide active">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">Anatomía de una Intrusión Silenciosa</h1>
+            <p class="text-2xl text-[#95B2CC] mb-8">Una Guía Visual para la Gestión de Amenazas Persistentes Avanzadas (APT)</p>
+            <div class="card rounded-lg shadow-2xl p-8 max-w-4xl">
+                 <h2 class="text-3xl font-bold text-white mb-4">Más Allá de las Alarmas Ruidosas</h2>
+                 <p class="text-lg">A diferencia del ransomware o los ataques DDoS, las intrusiones silenciosas de las APT pueden permanecer sin ser detectadas durante meses o años. El objetivo no es la interrupción, sino el espionaje y la exfiltración de datos a largo plazo. La detección se basa en anomalías sutiles, no en alarmas evidentes.</p>
+            </div>
+        </section>
+
+        <section id="motivations" class="slide">
+            <h2 class="slide-title">El Objetivo del Atacante</h2>
+            <div class="card rounded-lg shadow-2xl p-8 text-center">
+                 <h3 class="text-2xl font-bold text-white mb-3">Motivación del Atacante</h3>
+                <div class="chart-container">
+                    <canvas id="motivationsChart"></canvas>
+                </div>
+                <p class="mt-4 text-md text-[#95B2CC]">Los actores de APT están motivados principalmente por ganancias financieras o espionaje, lo que impulsa su necesidad de permanecer ocultos.</p>
+            </div>
+        </section>
+
+        <section id="detection" class="slide">
+             <h2 class="slide-title">Indicadores de Compromiso Sigilosos</h2>
+             <div class="card rounded-lg shadow-2xl p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-full items-center">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Evidencia en la Red</h3>
+                        <p class="mb-6 text-[#D8D8D8]">El tráfico de red a menudo contiene las primeras pistas. Los atacantes son expertos en disfrazar sus comunicaciones (C&C) para que parezcan tráfico legítimo.</p>
+                        <div class="chart-container h-64 max-h-64">
+                            <canvas id="c2TechniquesChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Evidencia en el Host</h3>
+                        <p class="mb-6 text-[#D8D8D8]">Las acciones en los propios sistemas revelan la presencia del atacante. En lugar de buscar malware conocido, el enfoque es detectar comportamientos anómalos.</p>
+                        <ul class="space-y-4 text-left">
+                            <li class="flex items-start"><span class="text-3xl mr-4 text-[#3E92CC]">🛡️</span><div><h4 class="font-bold text-lg">Monitorización de Integridad (FIM)</h4><p class="text-sm text-[#95B2CC]">Detecta cambios no autorizados en archivos críticos y configuraciones.</p></div></li>
+                            <li class="flex items-start"><span class="text-3xl mr-4 text-[#3E92CC]">👤</span><div><h4 class="font-bold text-lg">Análisis de Comportamiento (UEBA)</h4><p class="text-sm text-[#95B2CC]">Modela el comportamiento "normal" y alerta sobre desviaciones.</p></div></li>
+                        </ul>
+                    </div>
+                </div>
+             </div>
+        </section>
+        
+        <section id="mobilization" class="slide">
+            <h2 class="slide-title">Activando la Respuesta de Doble Vía</h2>
+            <p class="max-w-3xl mx-auto mb-6 text-lg">Se activan dos equipos en paralelo: el Equipo de Gestión de Crisis (CMT) y el Equipo de Respuesta a Incidentes (CSIRT).</p>
+            <div class="card rounded-lg shadow-2xl p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center">
+                         <h3 class="text-2xl font-semibold text-white mb-4">Flujo de Activación</h3>
+                        <div class="flex flex-col items-center justify-center space-y-2">
+                           <div class="flowchart-box p-3 rounded-lg w-full max-w-xs">Anomalía Detectada</div>
+                           <div class="flowchart-arrow">↓</div>
+                           <div class="flowchart-box p-3 rounded-lg w-full max-w-xs">Triaje y Escalada</div>
+                           <div class="flowchart-arrow">↓</div>
+                           <div class="flex space-x-4 w-full justify-center">
+                               <div class="text-center"><div class="flowchart-box p-3 rounded-lg">CMT (Estrategia)</div></div>
+                               <div class="text-center"><div class="flowchart-box p-3 rounded-lg">CSIRT (Técnica)</div></div>
+                           </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">La Caza Técnica: Orden de Volatilidad</h3>
+                        <p class="mb-6 text-[#D8D8D8]">La primera acción es preservar la evidencia más efímera.</p>
+                        <div class="relative pl-8 timeline text-left">
+                            <div class="timeline-item mb-6 relative"><h4 class="font-bold text-lg">1. Memoria RAM</h4><p class="text-sm text-[#95B2CC]">Capturar la RAM es CRÍTICO. Contiene evidencia en vivo que se pierde al reiniciar.</p></div>
+                            <div class="timeline-item relative"><h4 class="font-bold text-lg">2. Discos Duros</h4><p class="text-sm text-[#95B2CC]">Crear una imagen forense para análisis sin alterar la evidencia original.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="counteroffensive" class="slide">
+             <h2 class="slide-title">La Contraofensiva: Contener, Erradicar y Recuperar</h2>
+             <div class="card rounded-lg shadow-2xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="flex flex-col items-center"><div class="bg-[#0A2463] rounded-full h-24 w-24 flex items-center justify-center text-4xl border-4 border-[#3E92CC] mb-4">🔪</div><h3 class="text-xl font-bold mb-2">1. Contención Estratégica</h3><p class="text-sm text-[#95B2CC]">Limitar el daño sin alertar al atacante usando técnicas sutiles como la segmentación de red.</p></div>
+                     <div class="flex flex-col items-center"><div class="bg-[#0A2463] rounded-full h-24 w-24 flex items-center justify-center text-4xl border-4 border-[#3E92CC] mb-4">🧹</div><h3 class="text-xl font-bold mb-2">2. Erradicación Profunda</h3><p class="text-sm text-[#95B2CC]">Eliminar todos los mecanismos de persistencia y reconstruir los sistemas.</p></div>
+                     <div class="flex flex-col items-center"><div class="bg-[#0A2463] rounded-full h-24 w-24 flex items-center justify-center text-4xl border-4 border-[#3E92CC] mb-4">🏗️</div><h3 class="text-xl font-bold mb-2">3. Recuperación Resiliente</h3><p class="text-sm text-[#95B2CC]">Restaurar los sistemas por fases con monitorización intensificada para fortalecer las defensas.</p></div>
+                </div>
+             </div>
+        </section>
+
+        <section id="aftermath" class="slide">
+             <h2 class="slide-title">Gestión de las Consecuencias</h2>
+             <div class="card rounded-lg shadow-2xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="flex flex-col justify-center items-center text-center">
+                        <h3 class="text-3xl font-bold text-white mb-2">El Reloj del GDPR</h3>
+                        <p class="kpi-number">72h</p>
+                        <p class="text-lg">Plazo máximo para notificar una brecha de datos a las autoridades reguladoras.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-white mb-6">Controlar la Narrativa</h3>
+                        <p class="mb-6 text-left">Una comunicación proactiva y planificada es una estrategia central de mitigación de la crisis.</p>
+                         <ul class="space-y-4 text-left">
+                            <li class="flex items-start"><span class="text-2xl mr-4 text-[#3E92CC]">🏢</span><div><h4 class="font-bold text-lg">Internas</h4><p class="text-sm text-[#95B2CC]">Informar a la dirección y empleados con mensajes claros y directos.</p></div></li>
+                            <li class="flex items-start"><span class="text-2xl mr-4 text-[#3E92CC]">🌍</span><div><h4 class="font-bold text-lg">Externas</h4><p class="text-sm text-[#95B2CC]">Gestionar mensajes a clientes, medios y reguladores de forma transparente.</p></div></li>
+                        </ul>
+                    </div>
+                </div>
+             </div>
+        </section>
+        
+        <section id="lessons" class="slide">
+            <h2 class="slide-title">Convertir la Crisis en Resiliencia</h2>
+            <p class="max-w-3xl mx-auto mb-8">La fase de lecciones aprendidas ofrece un retorno de la inversión, transformando el coste del incidente en una mejora duradera de la seguridad.</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+                <div class="flowchart-box p-4 rounded-lg">Revisión Post-Mortem</div>
+                <div class="flowchart-arrow mx-4 hidden md:block">→</div>
+                <div class="flowchart-arrow my-2 md:hidden">↓</div>
+                <div class="flowchart-box p-4 rounded-lg">Plan de Acción</div>
+                <div class="flowchart-arrow mx-4 hidden md:block">→</div>
+                <div class="flowchart-arrow my-2 md:hidden">↓</div>
+                <div class="flowchart-box p-4 rounded-lg">Mejora Continua</div>
+            </div>
+            <footer class="text-center mt-12">
+                <p class="text-[#95B2CC]">Infografía generada basada en el manual "La Intrusión Silenciosa".</p>
+            </footer>
+        </section>
+
+    </div>
+
+    <button id="prevBtn" class="nav-button">Anterior</button>
+    <button id="nextBtn" class="nav-button">Siguiente</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides.forEach((slide, index) => {
+                    if (index === n) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+
+                prevBtn.style.display = n === 0 ? 'none' : 'block';
+                nextBtn.style.display = n === slides.length - 1 ? 'none' : 'block';
+            }
+
+            function nextSlide() {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            }
+            
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+
+            showSlide(currentSlide);
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                  return label.join(' ');
+                }
+                return label;
+            };
+            
+            const wrapLabel = (label, maxWidth = 16) => {
+                if (label.length <= maxWidth) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                if (currentLine) lines.push(currentLine.trim());
+                return lines;
+            };
+            
+            const brilliantBlues = { deep: '#0A2463', bright: '#3E92CC', medium: '#1E528C', soft: '#95B2CC', light: '#D8D8D8' };
+
+            new Chart(document.getElementById('motivationsChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Financiera', 'Espionaje', 'Otros'],
+                    datasets: [{
+                        label: 'Motivación del Atacante',
+                        data: [55, 8, 37],
+                        backgroundColor: [brilliantBlues.bright, brilliantBlues.soft, brilliantBlues.light],
+                        borderColor: brilliantBlues.medium,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } }
+                }
+            });
+
+            new Chart(document.getElementById('c2TechniquesChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Uso de HTTPS para C&C', 'Uso de Canales de Respaldo', 'Domain Fronting', 'Túnel DNS'].map(l => wrapLabel(l)),
+                    datasets: [{
+                        label: '% de Campañas APT',
+                        data: [81, 60.6, 50, 45],
+                        backgroundColor: brilliantBlues.bright,
+                        borderColor: brilliantBlues.soft,
+                        borderWidth: 1,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, max: 100, ticks: { color: brilliantBlues.light }, grid: { color: 'rgba(149, 178, 204, 0.2)' } },
+                        y: { ticks: { color: brilliantBlues.light, font: { size: 10 } }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
